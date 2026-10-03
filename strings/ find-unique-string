@@ -1,0 +1,38 @@
+// Find the unique string in an array
+// findUniq([ 'Aa', 'aaa', 'aaaaa', 'BbBb', 'Aaaa', 'AaAaAa', 'a' ]) === 'BbBb'
+// findUniq([ 'abc', 'acb', 'bac', 'foo', 'bca', 'cab', 'cba' ]) === 'foo'
+function findUniq(arr) {
+  // Normalize every string so strings with the same set of letters become equal
+  let normalizedArr = []
+
+  for (let i = 0; i < arr.length; i++) {
+    let str = arr[i]
+
+    // Ignore spaces and letter case
+    let cleaned = str.replace(/\s/g, "").toLowerCase()
+
+    // Convert the string to an array of characters and sort them
+    // "bca" -> ["a", "b", "c"]
+    let chars = cleaned.split("")
+    chars.sort()
+
+    // Remove duplicate characters
+    // ["a", "a", "b", "c", "c"] -> ["a", "b", "c"]
+    let uniqueChars = chars.filter((el, index) => {
+      return index === chars.indexOf(el)
+    })
+
+    // Convert the characters back to a normalized string
+    // ["a", "b", "c"] -> "abc"
+    let normalizedString = uniqueChars.join("")
+    normalizedArr.push(normalizedString)
+  }
+
+  // Find the index of the normalized string that occurs only once
+  let indexOfArr = normalizedArr.findIndex(
+    n => normalizedArr.indexOf(n) === normalizedArr.lastIndexOf(n)
+  )
+
+  // Return the original string at the same index
+  return arr[indexOfArr]
+}
